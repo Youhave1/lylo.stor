@@ -1,283 +1,174 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لیلو - Lilo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نمایش محصولات</title>
   <style>
     body {
-      font-family: 'Vazirmatn', sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #fff0f5;
-      color: #333;
-      direction: rtl;
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
-
-    header {
-      background-color: #8B1C3D;
+    header, footer {
+      background-color: #6b0f1a;
       color: white;
-      padding: 10px 20px;
-    }
-
-    .top-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .logo {
+      padding: 10px;
       display: flex;
       align-items: center;
     }
-
-    .logo img {
-      width: 40px;
+    header img, footer img {
       height: 40px;
       margin-left: 10px;
     }
-
-    .logo span {
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-
-    .contact-info {
-      font-size: 0.9em;
-      text-align: left;
-    }
-
-    .contact-info a {
-      color: white;
-      margin: 0 5px;
-      text-decoration: none;
-    }
-
-    nav {
+    main {
+      flex: 1;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #a52a4d;
-      padding: 10px 20px;
-      color: white;
     }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 15px;
-    }
-
-    nav ul li a {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-    }
-
-    .lang-switch {
-      cursor: pointer;
-      background: white;
-      color: #8B1C3D;
-      padding: 5px 10px;
-      border-radius: 5px;
-    }
-
-    .hero {
-      background-image: url('https://source.unsplash.com/1600x500/?fashion,women');
-      background-size: cover;
-      background-position: center;
-      height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 2em;
-      font-weight: bold;
-      text-shadow: 0 0 10px #8B1C3D;
-    }
-
-    .tagline {
-      text-align: center;
-      font-size: 1.1em;
-      color: #8B1C3D;
-      margin: 10px 0;
-    }
-
-    .categories {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-      flex-wrap: wrap;
-    }
-
-    .category {
-      background: #f8e1eb;
-      padding: 15px 25px;
-      border-radius: 10px;
-      cursor: pointer;
-      border: 2px solid #8B1C3D;
-      transition: 0.3s;
-    }
-
-    .category:hover {
-      background: #ffc9dc;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .product {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 10px;
+    .sidebar {
+      width: 60px;
+      background-color: #888066;
       overflow: hidden;
-      text-align: center;
+      transition: width 0.3s;
     }
-
-    .product img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
+    .sidebar:hover {
+      width: 200px;
     }
-
-    .product h3 {
-      margin: 10px 0 5px;
-    }
-
-    .product p {
-      color: #8B1C3D;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    footer {
-      background: #8B1C3D;
+    .sidebar a {
+      display: block;
       color: white;
+      padding: 15px;
+      text-decoration: none;
+    }
+    .sidebar a:hover {
+      background-color: #5a594c;
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+    .product {
       text-align: center;
-      padding: 15px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
+      margin-bottom: 30px;
     }
-
-    footer .logo {
-      flex-direction: row-reverse;
+    .product img {
+      max-width: 80%;
+      height: auto;
     }
-
-    @media (max-width: 600px) {
-      nav ul {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .hero {
-        font-size: 1.3em;
-      }
-      footer {
-        flex-direction: column;
-        text-align: center;
-      }
+    .product-title {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+    .product-price {
+      color: #6b0f1a;
+      font-weight: bold;
+    }
+    .order-btn {
+      background-color: #6b0f1a;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    #order-form {
+      display: none;
+      background: #eee;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    input, textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+    .social-icons {
+      margin-top: 10px;
+    }
+    .social-icons img {
+      height: 24px;
+      margin-left: 10px;
     }
   </style>
 </head>
 <body>
-
   <header>
-    <div class="top-header">
-      <div class="logo">
-        <img src="logo.png" alt="Lilo Logo">
-        <span>Lilo</span>
-      </div>
-      <div class="contact-info">
-        📞 0700-123-456 | 
-        📱 0780-456-789 | 
-        <a href="#">اینستاگرام</a> |
-        <a href="#">تلگرام</a>
-      </div>
-    </div>
+    <img src="logo.png" alt="لوگو">
+    <h2>فروشگاه ما</h2>
   </header>
-
-  <nav>
-    <ul>
-      <li><a href="#">خانه</a></li>
-      <li><a href="#">محصولات</a></li>
-      <li><a href="#">درباره ما</a></li>
-      <li><a href="#">تماس با ما</a></li>
-    </ul>
-    <div class="lang-switch" onclick="toggleLang()">EN</div>
-  </nav>
-
-  <div class="hero" id="hero-text">جدیدترین مدل‌های لباس زنانه</div>
-  <div class="tagline" id="tagline">Where authenticity meets elegance</div>
-
-  <div class="categories">
-    <div class="category" data-en="Dresses">پیراهن</div>
-    <div class="category" data-en="Manteau">مانتو</div>
-    <div class="category" data-en="Pants">شلوار</div>
-    <div class="category" data-en="Bags">کیف</div>
-  </div>
-
-  <div class="products">
-    <div class="product">
-      <img src="image.jpg" alt="Dress">
-      <h3 data-en="Summer Dress">پیراهن تابستانی</h3>
-      <p>۸۵۰٬۰۰۰ تومان</p>
+  <main>
+    <div class="sidebar">
+      <a href="#about">درباره ما</a>
+      <a href="#products">محصولات</a>
+      <a href="#order">سفارش آنلاین</a>
     </div>
-    <div class="product">
-      <img src="image.jpg" alt="Manteau">
-      <h3 data-en="Autumn Manteau">مانتو پاییزی</h3>
-      <p>۱٬۲۰۰٬۰۰۰ تومان</p>
+    <div class="content">
+      <div id="products">
+        <!-- نمونه محصول -->
+        <div class="product">
+          <img src="product1.jpg" alt="محصول ۱">
+          <div class="product-title">نام محصول ۱</div>
+          <div class="product-price">۵۰۰ افغانی</div>
+          <button class="order-btn" onclick="openForm()">سفارش آنلاین</button>
+        </div>
+        <!-- می‌توانی محصولات دیگر را با همان الگو اضافه کنی -->
+      </div>
+      <div id="order-form">
+        <h3>فرم سفارش آنلاین</h3>
+        <form onsubmit="submitForm(event)">
+          <input type="text" name="name" placeholder="اسم" required>
+          <input type="text" name="lastname" placeholder="تخلص" required>
+          <input type="text" name="phone" placeholder="شماره تماس" required>
+          <textarea name="address" rows="3" placeholder="آدرس دقیق منزل" required></textarea>
+          <button type="submit" class="order-btn">ارسال سفارش</button>
+        </form>
+      </div>
     </div>
-    <div class="product">
-      <img src="image.jpg" alt="Pants">
-      <h3 data-en="Jeans">شلوار جین</h3>
-      <p>۷۵۰٬۰۰۰ تومان</p>
-    </div>
-    <div class="product">
-      <img src="image.jpg" alt="Bag">
-      <h3 data-en="Leather Bag">کیف چرمی</h3>
-      <p>۹۰۰٬۰۰۰ تومان</p>
-    </div>
-  </div>
-
+  </main>
   <footer>
-    <div class="logo">
-      <img src="logo.png" alt="Lilo Logo" width="30" height="30" style="margin-left: 10px;">
-      <span>Lilo</span>
-    </div>
-    <div>
-      © ۲۰۲۵ Lilo | طراحی شده با 💖
+    <img src="logo.png" alt="لوگو">
+    <div class="social-icons">
+      <img src="facebook.png" alt="فیسبوک">
+      <img src="instagram.png" alt="اینستاگرام">
+      <img src="tiktok.png" alt="تیک‌تاک">
+      <img src="youtube.png" alt="یوتیوب">
+      <img src="x.png" alt="ایکس">
+      <img src="whatsapp.png" alt="واتساپ">
+      <img src="telegram.png" alt="تلگرام">
     </div>
   </footer>
 
   <script>
-    let lang = 'fa';
-    function toggleLang() {
-      lang = lang === 'fa' ? 'en' : 'fa';
-      document.body.dir = lang === 'fa' ? 'rtl' : 'ltr';
-      document.getElementById('hero-text').innerText = lang === 'fa'
-        ? 'جدیدترین مدل‌های لباس زنانه'
-        : 'Latest Women\'s Fashion';
-      document.getElementById('tagline').innerText = lang === 'fa'
-        ? 'جایی‌که اصالت با زیبایی آمیخته می‌شود'
-        : 'Where authenticity meets elegance';
+    function openForm() {
+      document.getElementById("order-form").style.display = 'block';
+    }
 
-      document.querySelectorAll('.category').forEach(el => {
-        el.innerText = lang === 'fa' ? el.dataset.fa || el.innerText : el.dataset.en;
+    function submitForm(event) {
+      event.preventDefault();
+      const form = event.target;
+      const data = {
+        name: form.name.value,
+        lastname: form.lastname.value,
+        phone: form.phone.value,
+        address: form.address.value,
+      };
+
+      fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }).then(() => {
+        alert("سفارش ثبت شد!");
+        form.reset();
+        document.getElementById("order-form").style.display = 'none';
       });
-      document.querySelectorAll('.product h3').forEach(el => {
-        el.innerText = lang === 'fa' ? el.dataset.fa || el.innerText : el.dataset.en;
-      });
-      document.querySelector('.lang-switch').innerText = lang === 'fa' ? 'EN' : 'FA';
     }
   </script>
-
 </body>
 </html>
