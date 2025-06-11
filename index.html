@@ -1,174 +1,689 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نمایش محصولات</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>فروشگاه لباس زنانه حرفه‌ای</title>
   <style>
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
     body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6b0f1a 0%, #888066 100%);
+      color: #f2f2f2;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      transition: direction 0.3s ease;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover, a:focus {
+      color: #ffb347;
+      outline: none;
     }
     header, footer {
-      background-color: #6b0f1a;
-      color: white;
-      padding: 10px;
+      background: rgba(27, 10, 10, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 1rem 2rem;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    header img, footer img {
-      height: 40px;
-      margin-left: 10px;
+    header .logo, footer .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      color: #ffb347;
+    }
+    header .logo svg, footer .logo svg {
+      width: 36px;
+      height: 36px;
+      fill: #ffb347;
+    }
+    header .lang-select select {
+      background: transparent;
+      border: 2px solid #ffb347;
+      color: #ffb347;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    header .lang-select select:hover, header .lang-select select:focus {
+      background: #ffb347;
+      color: #6b0f1a;
+      outline: none;
     }
     main {
-      flex: 1;
       display: flex;
-    }
-    .sidebar {
-      width: 60px;
-      background-color: #888066;
+      flex-grow: 1;
+      background: #fff;
+      color: #6b0f1a;
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 0 20px rgba(107, 15, 26, 0.2);
       overflow: hidden;
-      transition: width 0.3s;
+      margin: 1rem 2rem 2rem;
     }
-    .sidebar:hover {
-      width: 200px;
+    /* Sidebar */
+    nav.sidebar {
+      width: 250px;
+      background: #6b0f1a;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1rem;
+      gap: 1.5rem;
+      font-weight: 600;
+      user-select: none;
+      transition: background 0.3s ease;
     }
-    .sidebar a {
-      display: block;
-      color: white;
-      padding: 15px;
-      text-decoration: none;
+    nav.sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      transition: background 0.3s ease;
     }
-    .sidebar a:hover {
-      background-color: #5a594c;
+    nav.sidebar a svg {
+      width: 24px;
+      height: 24px;
+      fill: #ffb347;
+      transition: fill 0.3s ease;
     }
-    .content {
-      flex: 1;
-      padding: 20px;
+    nav.sidebar a:hover, nav.sidebar a:focus {
+      background: #ffb347;
+      color: #6b0f1a;
+      outline: none;
     }
-    .product {
+    nav.sidebar a:hover svg, nav.sidebar a:focus svg {
+      fill: #6b0f1a;
+    }
+    nav.sidebar::-webkit-scrollbar {
+      width: 8px;
+    }
+    nav.sidebar::-webkit-scrollbar-thumb {
+      background: #ffb347;
+      border-radius: 4px;
+    }
+    nav.sidebar::-webkit-scrollbar-track {
+      background: #4c0a13;
+    }
+    /* Content */
+    section.content {
+      flex-grow: 1;
+      padding: 2rem 3rem;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+    section.content h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #6b0f1a;
       text-align: center;
-      margin-bottom: 30px;
+      font-weight: 700;
     }
-    .product img {
-      max-width: 80%;
-      height: auto;
+    /* About */
+    #about p {
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #444;
+      text-align: center;
     }
-    .product-title {
-      font-size: 1.2em;
-      margin-top: 10px;
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(107, 15, 26, 0.15);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 32px rgba(107, 15, 26, 0.35);
+    }
+    .product-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-bottom: 2px solid #ffb347;
+    }
+    .product-info {
+      padding: 1rem 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-name {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: #6b0f1a;
     }
     .product-price {
-      color: #6b0f1a;
-      font-weight: bold;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ff6f61;
+      margin-bottom: 1rem;
     }
-    .order-btn {
-      background-color: #6b0f1a;
-      color: white;
-      padding: 10px;
+    .btn-order {
+      background: linear-gradient(45deg, #6b0f1a, #ffb347);
       border: none;
+      padding: 0.7rem;
+      border-radius: 30px;
+      color: white;
+      font-weight: 700;
       cursor: pointer;
+      text-align: center;
+      transition: background 0.4s ease;
+      user-select: none;
     }
-    #order-form {
-      display: none;
-      background: #eee;
-      padding: 20px;
-      margin-top: 20px;
+    .btn-order:hover, .btn-order:focus {
+      background: linear-gradient(45deg, #ffb347, #6b0f1a);
+      outline: none;
     }
-    input, textarea {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
+    /* Order Form */
+    #order-form-container {
+      max-width: 500px;
+      margin: 3rem auto 0 auto;
+      background: white;
+      border-radius: 14px;
+      padding: 2rem 3rem;
+      box-shadow: 0 0 25px rgba(107, 15, 26, 0.1);
+      color: #6b0f1a;
     }
-    .social-icons {
-      margin-top: 10px;
+    #order-form-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #6b0f1a;
+      font-weight: 700;
+      font-size: 1.8rem;
     }
-    .social-icons img {
-      height: 24px;
-      margin-left: 10px;
+    form#order-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    form#order-form label {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    form#order-form input,
+    form#order-form textarea {
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+    form#order-form input:focus,
+    form#order-form textarea:focus {
+      border-color: #ffb347;
+      outline: none;
+    }
+    form#order-form textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    form#order-form button {
+      background: linear-gradient(45deg, #6b0f1a, #ffb347);
+      border: none;
+      padding: 0.8rem;
+      border-radius: 30px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.4s ease;
+      user-select: none;
+    }
+    form#order-form button:hover, form#order-form button:focus {
+      background: linear-gradient(45deg, #ffb347, #6b0f1a);
+      outline: none;
+    }
+    /* Footer */
+    footer {
+      padding: 1rem 2rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: #f2f2f2;
+    }
+    footer .social-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    footer .social-links a {
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: #ffb347;
+      color: #6b0f1a;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    footer .social-links a:hover, footer .social-links a:focus {
+      background: #6b0f1a;
+      color: #ffb347;
+      outline: none;
+    }
+    footer .social-links svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+        margin: 1rem;
+      }
+      nav.sidebar {
+        flex-direction: row;
+        width: 100%;
+        overflow-x: auto;
+        padding: 1rem 0.5rem;
+      }
+      nav.sidebar a {
+        flex: 1 0 auto;
+        justify-content: center;
+      }
+      #order-form-container {
+        padding: 1rem 1.5rem;
+        margin-top: 2rem;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="لوگو">
-    <h2>فروشگاه ما</h2>
-  </header>
-  <main>
-    <div class="sidebar">
-      <a href="#about">درباره ما</a>
-      <a href="#products">محصولات</a>
-      <a href="#order">سفارش آنلاین</a>
-    </div>
-    <div class="content">
-      <div id="products">
-        <!-- نمونه محصول -->
-        <div class="product">
-          <img src="product1.jpg" alt="محصول ۱">
-          <div class="product-title">نام محصول ۱</div>
-          <div class="product-price">۵۰۰ افغانی</div>
-          <button class="order-btn" onclick="openForm()">سفارش آنلاین</button>
-        </div>
-        <!-- می‌توانی محصولات دیگر را با همان الگو اضافه کنی -->
-      </div>
-      <div id="order-form">
-        <h3>فرم سفارش آنلاین</h3>
-        <form onsubmit="submitForm(event)">
-          <input type="text" name="name" placeholder="اسم" required>
-          <input type="text" name="lastname" placeholder="تخلص" required>
-          <input type="text" name="phone" placeholder="شماره تماس" required>
-          <textarea name="address" rows="3" placeholder="آدرس دقیق منزل" required></textarea>
-          <button type="submit" class="order-btn">ارسال سفارش</button>
-        </form>
-      </div>
-    </div>
-  </main>
-  <footer>
-    <img src="logo.png" alt="لوگو">
-    <div class="social-icons">
-      <img src="facebook.png" alt="فیسبوک">
-      <img src="instagram.png" alt="اینستاگرام">
-      <img src="tiktok.png" alt="تیک‌تاک">
-      <img src="youtube.png" alt="یوتیوب">
-      <img src="x.png" alt="ایکس">
-      <img src="whatsapp.png" alt="واتساپ">
-      <img src="telegram.png" alt="تلگرام">
-    </div>
-  </footer>
 
-  <script>
-    function openForm() {
-      document.getElementById("order-form").style.display = 'block';
+<header>
+  <div class="logo" aria-label="لوگو فروشگاه لباس">
+    <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 2L12 62h40L32 2z"/></svg>
+    لیلو
+  </div>
+  <div class="lang-select" aria-label="انتخاب زبان">
+    <select id="language" aria-live="polite" aria-atomic="true">
+      <option value="fa" selected>فارسی</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+</header>
+
+<main>
+  <nav class="sidebar" aria-label="منوی اصلی">
+    <a href="#about" tabindex="0">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4s-4 1.79-4 4 1.79 4 4 4zM12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      درباره ما
+    </a>
+    <a href="#products" tabindex="0">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 6h-3V3H6v3H3v12h18V6zm-2 10H5v-8h14v8z"/></svg>
+      محصولات
+    </a>
+<!-- دکمه سفارش -->
+<a href="javascript:void(0);" onclick="openModal()" tabindex="0" style="display: inline-flex; align-items: center; gap: 6px; background-color: #444; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-family: 'Tahoma'; font-size: 15px;">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.67l1.43-5H6.16l1 3.34z"/></svg>
+  سفارش
+</a>
+
+<!-- بکگراند تار -->
+<div id="overlay" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 999;"></div>
+
+<!-- فرم کلاسیک مودال -->
+<div id="order-modal" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; background: #f9f9f9; padding: 30px; border-radius: 10px; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-family: 'Tahoma', sans-serif;">
+  <h2 style="text-align: center; margin-bottom: 20px; color: #333;">فرم ثبت سفارش</h2>
+  <form onsubmit="submitOrder(event)">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>فرم سفارش</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
+      font-family: 'Tahoma', sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
-    function submitForm(event) {
-      event.preventDefault();
-      const form = event.target;
-      const data = {
-        name: form.name.value,
-        lastname: form.lastname.value,
-        phone: form.phone.value,
-        address: form.address.value,
-      };
+    .overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
 
-      fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+    .form-container {
+      background-color: #fff;
+      width: 90%;
+      max-width: 600px;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      position: relative;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #444;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      background-color: #fefefe;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px 20px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-submit {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-close {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-close:hover {
+      background-color: #c82333;
+    }
+
+    #response {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="overlay" id="form-overlay">
+  <div class="form-container">
+    <h2>فرم سفارش کلاسیک</h2>
+    <form id="order-form">
+      <label>اسم:</label>
+      <input type="text" name="name" required>
+
+      <label>تخلص:</label>
+      <input type="text" name="lastname" required>
+
+      <label>شماره تماس فعال:</label>
+      <input type="tel" name="phone" required pattern="^[0-9+]{7,15}$">
+
+      <label>آدرس دقیق:</label>
+      <input type="text" name="address" required>
+
+      <label>پیام:</label>
+      <textarea name="message" rows="4"></textarea>
+
+      <div class="btn-group">
+        <button type="submit" class="btn btn-submit">ارسال فرم</button>
+        <button type="button" class="btn btn-close" onclick="closeForm()">بستن فرم</button>
+      </div>
+    </form>
+    <div id="response"></div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("order-form");
+  const responseDiv = document.getElementById("response");
+  const overlay = document.getElementById("form-overlay");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbyDpCGg23bRqV6PHBcMU2FOpqgFUd59wfzDyj1-dtAFT_7UsglKZG4WR-Dd9QjyTR_4EQ/exec", {
         method: "POST",
-        mode: "no-cors",
+        body: JSON.stringify(data),
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
-      }).then(() => {
-        alert("سفارش ثبت شد!");
-        form.reset();
-        document.getElementById("order-form").style.display = 'none';
       });
+
+      const result = await res.json();
+      if (result.result === "success") {
+        responseDiv.innerHTML = '<p class="success">✅ فرم با موفقیت ارسال شد.</p>';
+        form.reset();
+      } else {
+        responseDiv.innerHTML = '<p class="error">❌ خطایی در ارسال فرم رخ داد.</p>';
+      }
+    } catch (err) {
+      responseDiv.innerHTML = '<p class="error">❌ اتصال به سرور ممکن نیست.</p>';
+      console.error(err);
     }
-  </script>
+  });
+
+  function closeForm() {
+    overlay.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
+
+
+
+    <div style="text-align: center; margin-top: 20px;">
+      <button type="submit" style="background-color: #2e7d32; color: #fff; padding: 10px 25px; border: none; border-radius: 6px; font-size: 15px; cursor: pointer;">ارسال سفارش</button>
+      <button type="button" onclick="closeModal()" style="background-color: #888; color: #fff; padding: 10px 25px; margin-right: 10px; border: none; border-radius: 6px; font-size: 15px; cursor: pointer;">بستن</button>
+    </div>
+  </form>
+</div>
+
+<!-- اسکریپت -->
+<script>
+  function openModal() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('order-modal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('order-modal').style.display = 'none';
+  }
+
+  function submitOrder(event) {
+    event.preventDefault();
+    alert("✅ سفارش شما با موفقیت ثبت شد!");
+    event.target.reset();
+    closeModal();
+  }
+</script>
+
+  </nav>
+
+  <section id="about" class="content" tabindex="0">
+    <h2>درباره لیلو</h2>
+    <p>
+      لباس شیک برندی پیشرو در زمینه فروش آنلاین لباس زنانه با طراحی‌های منحصر به فرد و کیفیتی بی‌نظیر است. ما به شما بهترین‌ها را ارائه می‌کنیم تا همیشه متفاوت و خاص باشید.
+    </p>
+  </section>
+
+  <section id="products" class="content" tabindex="0">
+    <h2>محصولات ما</h2>
+    <div class="products-grid" aria-live="polite" aria-atomic="true">
+      <article class="product-card" tabindex="0" aria-label="لباس تابستانی مدل A">
+        <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80" alt="لباس تابستانی مدل A" />
+        <div class="product-info">
+          <div class="product-name">لباس تابستانی مدل A</div>
+          <div class="product-price">۲۵۰,۰۰۰ تومان</div>
+          <button class="btn-order" data-product="لباس تابستانی مدل A">سفارش دهید</button>
+        </div>
+      </article>
+      <article class="product-card" tabindex="0" aria-label="مانتو مدل C">
+        <img src="https://images.unsplash.com/photo-1542068829-1115f7259450?auto=format&fit=crop&w=400&q=80" alt="مانتو مدل C" />
+        <div class="product-info">
+          <div class="product-name">مانتو مدل C</div>
+          <div class="product-price">۳۰۰,۰۰۰ تومان</div>
+          <button class="btn-order" data-product="مانتو مدل C">سفارش دهید</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+
+<footer>
+  <div class="logo" aria-label="لوگو فروشگاه لباس">
+    <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 2L12 62h40L32 2z"/></svg>
+    لیلو
+  </div>
+  <div class="social-links" aria-label="شبکه‌های اجتماعی">
+    <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="اینستاگرام">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 2A3.75 3.75 0 004 7.75v8.5A3.75 3.75 0 007.75 20h8.5a3.75 3.75 0 003.75-3.75v-8.5A3.75 3.75 0 0016.25 4h-8.5zm8.75 1a1 1 0 110 2 1 1 0 010-2zm-4.25 2a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg>
+    </a>
+    <a href="https://telegram.org" target="_blank" rel="noopener" aria-label="تلگرام">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22 4.01L2.01 11l5.02 1.99 1.91 6 3.01-4.51 5.67 4.53 1.38-12.9z"/></svg>
+    </a>
+<a href="https://www.facebook.com/profile.php?id=61576101545277" target="_blank" rel="noopener" aria-label="فیسبوک">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor">
+    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 5 3.66 9.13 8.44 9.88v-6.99h-2.54v-2.89h2.54V9.41c0-2.5 1.5-3.89 3.79-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.89h-2.34v6.99C18.34 21.13 22 17 22 12z"/>
+  </svg>
+</a>
+<a href="https://wa.me/+93776638340" target="_blank" rel="noopener" aria-label="واتساپ">
+  <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" fill="currentColor">
+    <path d="M16.004 2.003C8.275 2.003 2 8.275 2 16.002c0 2.818.739 5.428 2.012 7.699L2 30l6.488-2.002a13.932 13.932 0 0 0 7.516 2.005c7.729 0 14.002-6.271 14.002-13.999S23.732 2.003 16.004 2.003zm0 25.598c-2.396 0-4.655-.695-6.561-1.898l-.471-.293-3.85 1.188 1.231-3.752-.307-.481A11.545 11.545 0 0 1 4.456 16c0-6.389 5.158-11.547 11.547-11.547 6.39 0 11.547 5.158 11.547 11.547 0 6.39-5.157 11.601-11.547 11.601zm6.314-8.655c-.348-.174-2.051-1.012-2.369-1.127-.318-.116-.551-.174-.784.174-.232.348-.899 1.127-1.104 1.36-.203.232-.406.261-.754.087-.347-.174-1.468-.541-2.797-1.726-1.034-.924-1.732-2.066-1.937-2.414-.203-.347-.022-.535.152-.709.156-.155.348-.406.522-.609.174-.203.232-.348.348-.58.116-.232.058-.435-.029-.609-.087-.174-.783-1.887-1.073-2.574-.282-.678-.567-.587-.784-.598l-.666-.012c-.232 0-.609.087-.928.406-.318.318-1.218 1.188-1.218 2.898s1.247 3.364 1.421 3.596c.174.232 2.456 3.744 5.949 5.248 3.494 1.504 3.494 1.004 4.123.928.63-.077 2.051-.87 2.34-1.714.29-.841.29-1.564.203-1.714-.087-.145-.319-.232-.667-.406z"/>
+  </svg>
+</a>
+
+  </div>
+</footer>
+
+<script>
+  // زبان صفحه
+  const langSelect = document.getElementById('language');
+  const body = document.body;
+
+  langSelect.addEventListener('change', e => {
+    const lang = e.target.value;
+    if (lang === 'fa') {
+      body.lang = 'fa';
+      body.dir = 'rtl';
+    } else {
+      body.lang = 'en';
+      body.dir = 'ltr';
+    }
+  });
+
+  // پر کردن محصول انتخاب شده در فرم سفارش
+  const orderForm = document.getElementById('order-form');
+  const productInputs = document.querySelectorAll('.btn-order');
+  const productField = document.getElementById('product');
+  const formMessage = document.getElementById('form-message');
+
+  productInputs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      productField.value = btn.dataset.product;
+      document.getElementById('order').scrollIntoView({behavior: 'smooth'});
+      productField.focus();
+    });
+  });
+
+  orderForm.addEventListener('submit', e => {
+    e.preventDefault();
+    // اعتبارسنجی ساده
+    if (!orderForm.checkValidity()) {
+      formMessage.textContent = 'لطفاً همه فیلدها را به درستی پر کنید.';
+      formMessage.style.color = '#d32f2f';
+      return;
+    }
+    formMessage.textContent = 'سفارش شما با موفقیت ثبت شد. متشکریم!';
+    formMessage.style.color = '#388e3c';
+    orderForm.reset();
+    productField.value = '';
+  });
+</script>
+
 </body>
 </html>
