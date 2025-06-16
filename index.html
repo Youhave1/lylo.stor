@@ -27,15 +27,14 @@
 
 <header class="bg-gray-700 text-white p-4 relative flex justify-between items-center shadow-lg">
   <div class="font-bold text-2xl">Lylo Mall</div>
-
-<!-- افزودن فونت نستعلیق از CDN -->
+<!-- افزودن فونت نستعلیق از CDN (در بخش <head> بگذار) -->
 <link href="https://cdn.fontcdn.ir/Font/Persian/IranNastaliq/IranNastaliq.css" rel="stylesheet" type="text/css" />
 
-<!-- بنر متحرک با فونت نستعلیق برای متن فارسی -->
+<!-- بنر متحرک (در بخش <body> جایی که می‌خواهی بنر نمایش داده شود) -->
 <div class="absolute left-1/2 transform -translate-x-1/2 w-1/2 overflow-hidden">
-  <div class="whitespace-nowrap animate-marquee">
+  <div class="whitespace-nowrap animate-marquee text-xl">
     <span>Welcome to LyLo MalL 👗</span>
-    <span class="font-nastaliq"> به لیلو مال خوش آمدید </span>
+    <span class="font-nastaliq text-3xl"> به لیلو مال خوش آمدید </span>
   </div>
 </div>
 
@@ -55,7 +54,6 @@
   animation: marquee 15s linear infinite;
 }
 </style>
-
 
   <div class="hidden sm:block">
   </div>
