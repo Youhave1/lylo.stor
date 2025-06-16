@@ -1,707 +1,180 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>فروشگاه لباس زنانه حرفه‌ای</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LYLO MALL</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Reset */
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
+    :root {
+      --dark-red: #8B0000;
+      --gray-custom: #808080;
     }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #6b0f1a 0%, #888066 100%);
-      color: #f2f2f2;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      transition: direction 0.3s ease;
+    .bg-dark-red { background-color: var(--dark-red); }
+    .text-dark-red { color: var(--dark-red); }
+    .bg-gray-custom { background-color: var(--gray-custom); }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
-    a {
-      color: inherit;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    a:hover, a:focus {
-      color: #ffb347;
-      outline: none;
-    }
-    header, footer {
-      background: rgba(27, 10, 10, 0.85);
-      backdrop-filter: blur(8px);
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    header .logo, footer .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 700;
-      font-size: 1.5rem;
-      letter-spacing: 2px;
-      color: #ffb347;
-    }
-    header .logo svg, footer .logo svg {
-      width: 36px;
-      height: 36px;
-      fill: #ffb347;
-    }
-    header .lang-select select {
-      background: transparent;
-      border: 2px solid #ffb347;
-      color: #ffb347;
-      font-weight: 600;
-      padding: 0.25rem 0.75rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    header .lang-select select:hover, header .lang-select select:focus {
-      background: #ffb347;
-      color: #6b0f1a;
-      outline: none;
-    }
-    main {
-      display: flex;
-      flex-grow: 1;
-      background: #fff;
-      color: #6b0f1a;
-      border-radius: 12px 12px 0 0;
-      box-shadow: 0 0 20px rgba(107, 15, 26, 0.2);
-      overflow: hidden;
-      margin: 1rem 2rem 2rem;
-    }
-    /* Sidebar */
-    nav.sidebar {
-      width: 250px;
-      background: #6b0f1a;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      padding: 2rem 1rem;
-      gap: 1.5rem;
-      font-weight: 600;
-      user-select: none;
-      transition: background 0.3s ease;
-    }
-    nav.sidebar a {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      font-size: 1.1rem;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      transition: background 0.3s ease;
-    }
-    nav.sidebar a svg {
-      width: 24px;
-      height: 24px;
-      fill: #ffb347;
-      transition: fill 0.3s ease;
-    }
-    nav.sidebar a:hover, nav.sidebar a:focus {
-      background: #ffb347;
-      color: #6b0f1a;
-      outline: none;
-    }
-    nav.sidebar a:hover svg, nav.sidebar a:focus svg {
-      fill: #6b0f1a;
-    }
-    nav.sidebar::-webkit-scrollbar {
-      width: 8px;
-    }
-    nav.sidebar::-webkit-scrollbar-thumb {
-      background: #ffb347;
-      border-radius: 4px;
-    }
-    nav.sidebar::-webkit-scrollbar-track {
-      background: #4c0a13;
-    }
-    /* Content */
-    section.content {
-      flex-grow: 1;
-      padding: 2rem 3rem;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-    }
-    section.content h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #6b0f1a;
-      text-align: center;
-      font-weight: 700;
-    }
-    /* About */
-    #about p {
-      max-width: 700px;
-      margin: 0 auto 3rem;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: #444;
-      text-align: center;
-    }
-    /* Products Grid */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 2rem;
-    }
-    .product-card {
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 4px 20px rgba(107, 15, 26, 0.15);
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-    }
-    .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 32px rgba(107, 15, 26, 0.35);
-    }
-    .product-card img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      border-bottom: 2px solid #ffb347;
-    }
-    .product-info {
-      padding: 1rem 1.5rem;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .product-name {
-      font-weight: 700;
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-      color: #6b0f1a;
-    }
-    .product-price {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #ff6f61;
-      margin-bottom: 1rem;
-    }
-    .btn-order {
-      background: linear-gradient(45deg, #6b0f1a, #ffb347);
-      border: none;
-      padding: 0.7rem;
-      border-radius: 30px;
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.4s ease;
-      user-select: none;
-    }
-    .btn-order:hover, .btn-order:focus {
-      background: linear-gradient(45deg, #ffb347, #6b0f1a);
-      outline: none;
-    }
-    /* Order Form */
-    #order-form-container {
-      max-width: 500px;
-      margin: 3rem auto 0 auto;
-      background: white;
-      border-radius: 14px;
-      padding: 2rem 3rem;
-      box-shadow: 0 0 25px rgba(107, 15, 26, 0.1);
-      color: #6b0f1a;
-    }
-    #order-form-container h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: #6b0f1a;
-      font-weight: 700;
-      font-size: 1.8rem;
-    }
-    form#order-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-    form#order-form label {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-    form#order-form input,
-    form#order-form textarea {
-      padding: 0.8rem 1rem;
-      border-radius: 8px;
-      border: 2px solid #ccc;
-      font-size: 1rem;
-      font-family: inherit;
-      transition: border-color 0.3s ease;
-    }
-    form#order-form input:focus,
-    form#order-form textarea:focus {
-      border-color: #ffb347;
-      outline: none;
-    }
-    form#order-form textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-    form#order-form button {
-      background: linear-gradient(45deg, #6b0f1a, #ffb347);
-      border: none;
-      padding: 0.8rem;
-      border-radius: 30px;
-      color: white;
-      font-weight: 700;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background 0.4s ease;
-      user-select: none;
-    }
-    form#order-form button:hover, form#order-form button:focus {
-      background: linear-gradient(45deg, #ffb347, #6b0f1a);
-      outline: none;
-    }
-    /* Footer */
-    footer {
-      padding: 1rem 2rem;
-      gap: 1rem;
-      flex-wrap: wrap;
-      color: #f2f2f2;
-    }
-    footer .social-links {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-    footer .social-links a {
-      width: 32px;
-      height: 32px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      background: #ffb347;
-      color: #6b0f1a;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-    footer .social-links a:hover, footer .social-links a:focus {
-      background: #6b0f1a;
-      color: #ffb347;
-      outline: none;
-    }
-    footer .social-links svg {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      main {
-        flex-direction: column;
-        margin: 1rem;
-      }
-      nav.sidebar {
-        flex-direction: row;
-        width: 100%;
-        overflow-x: auto;
-        padding: 1rem 0.5rem;
-      }
-      nav.sidebar a {
-        flex: 1 0 auto;
-        justify-content: center;
-      }
-      #order-form-container {
-        padding: 1rem 1.5rem;
-        margin-top: 2rem;
-      }
+    .animate-marquee {
+      display: inline-block;
+      animation: marquee 10s linear infinite;
     }
   </style>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
 
-<header>
-  <div class="logo" aria-label="لوگو فروشگاه لباس">
-    <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 2L12 62h40L32 2z"/></svg>
-    لیلو
+<header class="bg-gray-700 text-white p-4 relative flex justify-between items-center shadow-lg">
+  <div class="font-bold text-2xl">🌟 LYLO MALL</div>
+
+  <div class="absolute left-1/2 transform -translate-x-1/2 w-1/2 overflow-hidden">
+    <div class="whitespace-nowrap animate-marquee">
+      WELCOME TO LYLO MALL
+    </div>
   </div>
-  <div class="lang-select" aria-label="انتخاب زبان">
-    <select id="language" aria-live="polite" aria-atomic="true">
-      <option value="fa" selected>فارسی</option>
-      <option value="en">English</option>
-    </select>
+
+  <div class="hidden sm:block">
   </div>
 </header>
 
-<main>
-  <nav class="sidebar" aria-label="منوی اصلی">
-    <a href="#about" tabindex="0">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4s-4 1.79-4 4 1.79 4 4 4zM12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-      درباره ما
-    </a>
-    <a href="#products" tabindex="0">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 6h-3V3H6v3H3v12h18V6zm-2 10H5v-8h14v8z"/></svg>
-      محصولات
-    </a>
-<!-- دکمه سفارش -->
-<a href="javascript:void(0);" onclick="openModal()" tabindex="0" style="display: inline-flex; align-items: center; gap: 6px; background-color: #444; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-family: 'Tahoma'; font-size: 15px;">
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.67l1.43-5H6.16l1 3.34z"/></svg>
-  سفارش
-</a>
+<main class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+  <!-- Product 1 -->
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center p-4">
+<img src="product1.jpg" alt="Product 3" class="w-64 h-64 object-cover rounded cursor-pointer" onclick="openFullscreenImage(this.src)">
+    <div class="flex gap-2 mt-3">
+      <button class="bg-dark-red text-white px-3 py-1 rounded" onclick="openForm()">Order Now</button>
+      <button class="bg-gray-custom text-white px-3 py-1 rounded" onclick="showDetails(this)">Details</button>
+    </div>
+    <div class="details hidden text-dark-red font-bold mt-2">1000 AFN</div>
+  </div>
 
-<!-- بکگراند تار -->
-<div id="overlay" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index: 999;"></div>
+  <!-- Product 2 -->
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center p-4">
+<img src="product2.jpg" alt="Product 3" class="w-64 h-64 object-cover rounded cursor-pointer" onclick="openFullscreenImage(this.src)">
+    <div class="flex gap-2 mt-3">
+      <button class="bg-dark-red text-white px-3 py-1 rounded" onclick="openForm()">Order Now</button>
+      <button class="bg-gray-custom text-white px-3 py-1 rounded" onclick="showDetails(this)">Details</button>
+    </div>
+    <div class="details hidden text-dark-red font-bold mt-2">1500 AFN</div>
+  </div>
 
-<!-- فرم کلاسیک مودال -->
-<div id="order-modal" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; background: #f9f9f9; padding: 30px; border-radius: 10px; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-family: 'Tahoma', sans-serif;">
-  <h2 style="text-align: center; margin-bottom: 20px; color: #333;">فرم ثبت سفارش</h2>
-  <form onsubmit="submitOrder(event)">
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>فرم سفارش</title>
-  <style>
-    body {
-      background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
-      font-family: 'Tahoma', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+  <!-- Product 3 -->
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center p-4">
+<img src="product3.jpg" alt="Product 3" class="w-64 h-64 object-cover rounded cursor-pointer" onclick="openFullscreenImage(this.src)">
+    <div class="flex gap-2 mt-3">
+      <button class="bg-dark-red text-white px-3 py-1 rounded" onclick="openForm()">Order Now</button>
+      <button class="bg-gray-custom text-white px-3 py-1 rounded" onclick="showDetails(this)">Details</button>
+    </div>
+    <div class="details hidden text-dark-red font-bold mt-2">2000 AFN</div>
+  </div>
+</main>
+<main class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+  <!-- Product 1 -->
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center p-4">
+<img src="product4.jpg" alt="Product 3" class="w-64 h-64 object-cover rounded cursor-pointer" onclick="openFullscreenImage(this.src)">
+    <div class="flex gap-2 mt-3">
+      <button class="bg-dark-red text-white px-3 py-1 rounded" onclick="openForm()">Order Now</button>
+      <button class="bg-gray-custom text-white px-3 py-1 rounded" onclick="showDetails(this)">Details</button>
+    </div>
+    <div class="details hidden text-dark-red font-bold mt-2">1000 AFN</div>
+  </div>
 
-    .overlay {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, 0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
+  <!-- Product 2 -->
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center p-4">
+<img src="product5.jpg" alt="Product 3" class="w-64 h-64 object-cover rounded cursor-pointer" onclick="openFullscreenImage(this.src)">
+    <div class="flex gap-2 mt-3">
+      <button class="bg-dark-red text-white px-3 py-1 rounded" onclick="openForm()">Order Now</button>
+      <button class="bg-gray-custom text-white px-3 py-1 rounded" onclick="showDetails(this)">Details</button>
+    </div>
+    <div class="details hidden text-dark-red font-bold mt-2">1500 AFN</div>
+  </div>
 
-    .form-container {
-      background-color: #fff;
-      width: 90%;
-      max-width: 600px;
-      padding: 30px 40px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      position: relative;
-      animation: fadeIn 0.5s ease-in-out;
-    }
+  <!-- Product 3 -->
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center p-4">
+<img src="product6.jpg" alt="Product 3" class="w-64 h-64 object-cover rounded cursor-pointer" onclick="openFullscreenImage(this.src)">
+    <div class="flex gap-2 mt-3">
+      <button class="bg-dark-red text-white px-3 py-1 rounded" onclick="openForm()">Order Now</button>
+      <button class="bg-gray-custom text-white px-3 py-1 rounded" onclick="showDetails(this)">Details</button>
+    </div>
+    <div class="details hidden text-dark-red font-bold mt-2">2000 AFN</div>
+  </div>
+</main>
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .form-container h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      color: #444;
-      font-weight: bold;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-      background-color: #fefefe;
-    }
-
-    input:focus, textarea:focus {
-      border-color: #007bff;
-      outline: none;
-    }
-
-    .btn-group {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .btn {
-      flex: 1;
-      padding: 12px 20px;
-      font-size: 15px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .btn-submit {
-      background-color: #007bff;
-      color: white;
-    }
-
-    .btn-submit:hover {
-      background-color: #0056b3;
-    }
-
-    .btn-close {
-      background-color: #dc3545;
-      color: white;
-    }
-
-    .btn-close:hover {
-      background-color: #c82333;
-    }
-
-    #response {
-      text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    .success {
-      color: green;
-    }
-
-    .error {
-      color: red;
-    }
-  </style>
-</head>
-<body>
-
-<div class="overlay" id="form-overlay">
-  <div class="form-container">
-    <h2>فرم سفارش کلاسیک</h2>
-    <form id="order-form">
-      <label>اسم:</label>
-      <input type="text" name="name" required>
-
-      <label>تخلص:</label>
-      <input type="text" name="lastname" required>
-
-      <label>شماره تماس فعال:</label>
-      <input type="tel" name="phone" required pattern="^[0-9+]{7,15}$">
-
-      <label>آدرس دقیق:</label>
-      <input type="text" name="address" required>
-
-      <label>پیام:</label>
-      <textarea name="message" rows="4"></textarea>
-
-      <div class="btn-group">
-        <button type="submit" class="btn btn-submit">ارسال فرم</button>
-        <button type="button" class="btn btn-close" onclick="closeForm()">بستن فرم</button>
+<div id="orderForm" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+    <button onclick="closeForm()" class="absolute top-2 left-2 text-gray-600 hover:text-black text-2xl">&times;</button>
+    <h2 class="text-xl font-bold mb-4">Order Form</h2>
+    <form onsubmit="submitOrder(event)">
+      <div class="mb-2">
+        <label class="block text-sm font-bold">First Name</label>
+        <input type="text" required class="w-full border rounded p-2" placeholder="Enter your first name">
+      </div>
+      <div class="mb-2">
+        <label class="block text-sm font-bold">Last Name</label>
+        <input type="text" required class="w-full border rounded p-2" placeholder="Enter your last name">
+      </div>
+      <div class="mb-2">
+        <label class="block text-sm font-bold">Phone Number</label>
+        <input type="tel" required class="w-full border rounded p-2" placeholder="07XX XXX XXX">
+      </div>
+      <div class="mb-2">
+        <label class="block text-sm font-bold">Full Address</label>
+        <input type="text" required class="w-full border rounded p-2" placeholder="Enter your full address">
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-bold">Message</label>
+        <textarea class="w-full border rounded p-2" rows="3" placeholder="Write your message..."></textarea>
+      </div>
+      <div class="flex justify-between">
+        <button type="button" onclick="closeForm()" class="bg-gray-500 text-white px-4 py-2 rounded">Exit</button>
+        <button type="submit" class="bg-dark-red text-white px-4 py-2 rounded">Submit Order</button>
       </div>
     </form>
-    <div id="response"></div>
   </div>
 </div>
 
+<footer class="bg-dark-red text-white p-4 text-center rounded-t-lg mt-8">
+  © 2025 - All rights reserved
+</footer>
+
 <script>
-  const form = document.getElementById("order-form");
-  const responseDiv = document.getElementById("response");
-  const overlay = document.getElementById("form-overlay");
+  function showDetails(button) {
+    const detailsDiv = button.closest('.p-4').querySelector('.details');
+    detailsDiv.classList.toggle('hidden');
+  }
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbyDpCGg23bRqV6PHBcMU2FOpqgFUd59wfzDyj1-dtAFT_7UsglKZG4WR-Dd9QjyTR_4EQ/exec", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const result = await res.json();
-      if (result.result === "success") {
-        responseDiv.innerHTML = '<p class="success">✅ فرم با موفقیت ارسال شد.</p>';
-        form.reset();
-      } else {
-        responseDiv.innerHTML = '<p class="error">❌ خطایی در ارسال فرم رخ داد.</p>';
-      }
-    } catch (err) {
-      responseDiv.innerHTML = '<p class="error">❌ اتصال به سرور ممکن نیست.</p>';
-      console.error(err);
-    }
-  });
+  function openForm() {
+    document.getElementById('orderForm').classList.remove('hidden');
+  }
 
   function closeForm() {
-    overlay.style.display = 'none';
-  }
-</script>
-
-</body>
-</html>
-
-
-
-    <div style="text-align: center; margin-top: 20px;">
-      <button type="submit" style="background-color: #2e7d32; color: #fff; padding: 10px 25px; border: none; border-radius: 6px; font-size: 15px; cursor: pointer;">ارسال سفارش</button>
-      <button type="button" onclick="closeModal()" style="background-color: #888; color: #fff; padding: 10px 25px; margin-right: 10px; border: none; border-radius: 6px; font-size: 15px; cursor: pointer;">بستن</button>
-    </div>
-  </form>
-</div>
-
-<!-- اسکریپت -->
-<script>
-  function openModal() {
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('order-modal').style.display = 'block';
-  }
-
-  function closeModal() {
-    document.getElementById('overlay').style.display = 'none';
-    document.getElementById('order-modal').style.display = 'none';
+    document.getElementById('orderForm').classList.add('hidden');
   }
 
   function submitOrder(event) {
     event.preventDefault();
-    alert("✅ سفارش شما با موفقیت ثبت شد!");
-    event.target.reset();
-    closeModal();
+    alert('Your order has been submitted!');
+    closeForm();
   }
 </script>
-
-  </nav>
-
-  <section id="about" class="content" tabindex="0">
-    <h2>درباره لیلو</h2>
-    <p>
-      ✨ به فروشگاه آنلاین لیلو خوش آمدید! ✨
-جایی که زیبایی، اصالت و کیفیت با هم ملاقات می‌کنند.
-
-💄 ارائه‌دهنده لوازم آرایشی اورجینال از برندهای معتبر جهانی
-🌸 مجموعه‌ای از عطریات خوش‌بو و ماندگار
-👗 لباس‌های پنجابی و دست‌دوز وطنی با طراحی منحصربه‌فرد
-👡 بوت و چپلی‌های زنانه شیک، راحت و مناسب تمام فصل‌ها
-🛍 تنوع گسترده محصولات برای هر سلیقه، با قیمت‌های مناسب و منصفانه
-
-📱 با دنبال کردن ما در شبکه‌های اجتماعی، از جدیدترین محصولات، تخفیف‌ها و پیشنهادهای ویژه باخبر شوید.
-
-فروشگاه آنلاین لیلو – زیبایی از سراسر جهان، آمیخته با هنر سرزمین ما 🌍✨.
-    </p>
-  </section>
-
-  <section id="products" class="content" tabindex="0">
-<h2>محصولات ما</h2>
-<div class="products-grid" aria-live="polite" aria-atomic="true">
-  <article class="product-card" tabindex="0" aria-label="لباس تابستانی مدل A">
-    <img src="https://raw.githubusercontent.com/Youhave1/lylo.stor/main/image.jpg" alt="لباس تابستانی مدل A" />
-    <div class="product-info">
-      <div class="product-name">لباس تابستانی مدل A</div>
-      <div class="product-price">1000 افغانی</div>
-     <!-- دکمه سفارش -->
-<a href="javascript:void(0);" onclick="openModal()" tabindex="0" style="display: inline-flex; align-items: center; gap: 6px; background-color: #444; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-family: 'Tahoma'; font-size: 15px;">
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.67l1.43-5H6.16l1 3.34z"/></svg>
-  سفارش
-</a>   
-    </div>
-  </article>
+<!-- Fullscreen Image Modal -->
+<div id="fullscreenModal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-50" onclick="closeFullscreenImage()">
+  <img id="fullscreenImage" src="" alt="Fullscreen" class="max-w-full max-h-full rounded-lg shadow-lg">
 </div>
-<div class="products-grid" aria-live="polite" aria-atomic="true">
-  <article class="product-card" tabindex="0" aria-label="لباس تابستانی مدل A">
-    <img src="https://raw.githubusercontent.com/Youhave1/lylo.stor/main/image1.jpg" alt="لباس تابستانی مدل A" />
-    <div class="product-info">
-      <div class="product-name">لباس تابستانی مدل A</div>
-      <div class="product-price">1000 افغانی</div>
-     <!-- دکمه سفارش -->
-<a href="javascript:void(0);" onclick="openModal()" tabindex="0" style="display: inline-flex; align-items: center; gap: 6px; background-color: #444; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-family: 'Tahoma'; font-size: 15px;">
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.67l1.43-5H6.16l1 3.34z"/></svg>
-  سفارش
-</a>
-    </div>
-      </article>
-
-<footer>
-  <div class="logo" aria-label="لوگو فروشگاه لباس">
-    <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 2L12 62h40L32 2z"/></svg>
-    لیلو
-  </div>
-  <div class="social-links" aria-label="شبکه‌های اجتماعی">
-    <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="اینستاگرام">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 2A3.75 3.75 0 004 7.75v8.5A3.75 3.75 0 007.75 20h8.5a3.75 3.75 0 003.75-3.75v-8.5A3.75 3.75 0 0016.25 4h-8.5zm8.75 1a1 1 0 110 2 1 1 0 010-2zm-4.25 2a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg>
-    </a>
-    <a href="https://telegram.org" target="_blank" rel="noopener" aria-label="تلگرام">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22 4.01L2.01 11l5.02 1.99 1.91 6 3.01-4.51 5.67 4.53 1.38-12.9z"/></svg>
-    </a>
-<a href="https://www.facebook.com/profile.php?id=61576101545277" target="_blank" rel="noopener" aria-label="فیسبوک">
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor">
-    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 5 3.66 9.13 8.44 9.88v-6.99h-2.54v-2.89h2.54V9.41c0-2.5 1.5-3.89 3.79-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.89h-2.34v6.99C18.34 21.13 22 17 22 12z"/>
-  </svg>
-</a>
-<a href="https://wa.me/+93776638340" target="_blank" rel="noopener" aria-label="واتساپ">
-  <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" fill="currentColor">
-    <path d="M16.004 2.003C8.275 2.003 2 8.275 2 16.002c0 2.818.739 5.428 2.012 7.699L2 30l6.488-2.002a13.932 13.932 0 0 0 7.516 2.005c7.729 0 14.002-6.271 14.002-13.999S23.732 2.003 16.004 2.003zm0 25.598c-2.396 0-4.655-.695-6.561-1.898l-.471-.293-3.85 1.188 1.231-3.752-.307-.481A11.545 11.545 0 0 1 4.456 16c0-6.389 5.158-11.547 11.547-11.547 6.39 0 11.547 5.158 11.547 11.547 0 6.39-5.157 11.601-11.547 11.601zm6.314-8.655c-.348-.174-2.051-1.012-2.369-1.127-.318-.116-.551-.174-.784.174-.232.348-.899 1.127-1.104 1.36-.203.232-.406.261-.754.087-.347-.174-1.468-.541-2.797-1.726-1.034-.924-1.732-2.066-1.937-2.414-.203-.347-.022-.535.152-.709.156-.155.348-.406.522-.609.174-.203.232-.348.348-.58.116-.232.058-.435-.029-.609-.087-.174-.783-1.887-1.073-2.574-.282-.678-.567-.587-.784-.598l-.666-.012c-.232 0-.609.087-.928.406-.318.318-1.218 1.188-1.218 2.898s1.247 3.364 1.421 3.596c.174.232 2.456 3.744 5.949 5.248 3.494 1.504 3.494 1.004 4.123.928.63-.077 2.051-.87 2.34-1.714.29-.841.29-1.564.203-1.714-.087-.145-.319-.232-.667-.406z"/>
-  </svg>
-</a>
-
-  </div>
-</footer>
 
 <script>
-  // زبان صفحه
-  const langSelect = document.getElementById('language');
-  const body = document.body;
+  function openFullscreenImage(src) {
+    const modal = document.getElementById('fullscreenModal');
+    const img = document.getElementById('fullscreenImage');
+    img.src = src;
+    modal.classList.remove('hidden');
+  }
 
-  langSelect.addEventListener('change', e => {
-    const lang = e.target.value;
-    if (lang === 'fa') {
-      body.lang = 'fa';
-      body.dir = 'rtl';
-    } else {
-      body.lang = 'en';
-      body.dir = 'ltr';
-    }
-  });
-
-  // پر کردن محصول انتخاب شده در فرم سفارش
-  const orderForm = document.getElementById('order-form');
-  const productInputs = document.querySelectorAll('.btn-order');
-  const productField = document.getElementById('product');
-  const formMessage = document.getElementById('form-message');
-
-  productInputs.forEach(btn => {
-    btn.addEventListener('click', () => {
-      productField.value = btn.dataset.product;
-      document.getElementById('order').scrollIntoView({behavior: 'smooth'});
-      productField.focus();
-    });
-  });
-
-  orderForm.addEventListener('submit', e => {
-    e.preventDefault();
-    // اعتبارسنجی ساده
-    if (!orderForm.checkValidity()) {
-      formMessage.textContent = 'لطفاً همه فیلدها را به درستی پر کنید.';
-      formMessage.style.color = '#d32f2f';
-      return;
-    }
-    formMessage.textContent = 'سفارش شما با موفقیت ثبت شد. متشکریم!';
-    formMessage.style.color = '#388e3c';
-    orderForm.reset();
-    productField.value = '';
-  });
+  function closeFullscreenImage() {
+    const modal = document.getElementById('fullscreenModal');
+    modal.classList.add('hidden');
+  }
 </script>
-
 </body>
 </html>
